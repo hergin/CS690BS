@@ -5,8 +5,23 @@ class Program
 {
     static void Main(string[] args)
     {
-        DataManager dataManager = new DataManager("passenger-data.txt");
+        ConsoleUI theUI = new ConsoleUI();
+        theUI.Show();
+    }
+}
 
+public class ConsoleUI
+{
+
+    DataManager dataManager;
+
+    public ConsoleUI()
+    {
+        dataManager = new DataManager("passenger-data.txt");
+    }
+
+    public void Show()
+    {
         string mode = AskForInput("Please select mode (driver OR manager): ");
 
         if (mode == "driver")
