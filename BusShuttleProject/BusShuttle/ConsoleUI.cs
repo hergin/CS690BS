@@ -3,11 +3,11 @@ namespace BusShuttle;
 public class ConsoleUI
 {
 
-    DataManager dataManager;
+    FileSaver fileSaver;
 
     public ConsoleUI()
     {
-        dataManager = new DataManager("passenger-data.txt");
+        fileSaver = new FileSaver("passenger-data.txt");
     }
 
     public void Show()
@@ -22,7 +22,7 @@ public class ConsoleUI
                 string stopName = AskForInput("Enter stop name: ");
                 int boarded = int.Parse(AskForInput("Enter number of boarded passengers: "));
 
-                dataManager.AppendLine(stopName + ":" + boarded);
+                fileSaver.AppendLine(stopName + ":" + boarded);
 
                 command = AskForInput("Enter command (end OR continue): ");
             } while (command != "end");
