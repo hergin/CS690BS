@@ -5,24 +5,44 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Write("Please select mode (driver OR manager): ");
-        string mode = Console.ReadLine();
+        DataManager dataManager = new DataManager("passenger-data.txt");
 
-        if(mode=="driver") {
-            
+        string mode = AskForInput("Please select mode (driver OR manager): ");
+
+        if (mode == "driver")
+        {
             string command;
-            do {
-                Console.Write("Enter stop name: ");
-                string stopName = Console.ReadLine();
-                Console.Write("Enter number of boarded passengers: ");
-                int boarded = int.Parse(Console.ReadLine());
+            do
+            {
+                string stopName = AskForInput("Enter stop name: ");
+                int boarded = int.Parse(AskForInput("Enter number of boarded passengers: "));
 
-                File.AppendAllText("passenger-data.txt",stopName+":"+boarded+Environment.NewLine);
+                dataManager.AppendLine(stopName + ":" + boarded);
 
-                Console.Write("Enter command (end OR continue): ");
-                command = Console.ReadLine();
-            } while(command!="end");
-
+                command = AskForInput("Enter command (end OR continue): ");
+            } while (command != "end");
         }
+    }
+
+    static string AskForInput(string message)
+    {
+        Console.Write(message);
+        return Console.ReadLine();
+    }
+}
+
+public class DataManager
+{
+    string fileName;
+
+    public DataManager(string fileName)
+    {
+        this.fileName = fileName;
+        File.Create(this.fileName).Close();
+    }
+
+    public void AppendLine(string line)
+    {
+        File.AppendAllText(this.fileName, line + Environment.NewLine);
     }
 }

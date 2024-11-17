@@ -1,2 +1,2 @@
-Music:5
-AJ:10
+cap:2
+arch:4
