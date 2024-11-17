@@ -17,11 +17,10 @@ public class DataManager {
         Loops.Add(new Loop("Orange"));
 
         Stops = new List<Stop>();
-        Stops.Add(new Stop("Oakwood"));
-        Stops.Add(new Stop("Anthony"));
-        Stops.Add(new Stop("North Bus Shelter"));
-        Stops.Add(new Stop("North Dining"));
-        Stops.Add(new Stop("Letterman"));
+        var stopsFileContent = File.ReadAllLines("stops.txt");
+        foreach(var stopName in stopsFileContent) {
+            Stops.Add(new Stop(stopName));
+        }
 
         Loops[0].Stops.Add(Stops[0]);
         Loops[0].Stops.Add(Stops[1]);
@@ -39,5 +38,22 @@ public class DataManager {
     public void AddNewPassengerData(PassengerData data) {
         this.PassengerData.Add(data);
         this.fileSaver.AppendData(data);
+    }
+
+    public void AddStop(string newStopName) {
+        this.Stops.Add(new Stop(newStopName));
+        this.SynchronizeStops();
+    }
+
+    public void RemoveStop(Stop toRemove) {
+        this.Stops.Remove(toRemove);
+        this.SynchronizeStops();
+    }
+
+    public void SynchronizeStops() {
+        File.Delete("stops.txt");
+        foreach(var stop in Stops) {
+            File.AppendAllText("stops.txt",stop.Name+Environment.NewLine);
+        }
     }
 }
